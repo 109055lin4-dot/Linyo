@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宥成民國（林國）駐美濃國中大使館 - 護照查詢與官方法規網</title>
+    <style>
+        :root {
+            --primary-color: #0d1b2a;
+            --accent-gold: #e0a96d;
+            --light-gold: #f4e8c1;
+            --bg-dark: #1b263b;
+            --text-light: #e0e1dd;
+            --card-bg: rgba(13, 27, 42, 0.85);
+            --danger-red: #d90429;
+            --border-color: #415a77;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+            border-bottom: 3px solid var(--accent-gold);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .flag-emblem {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            letter-spacing: 4px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .motto {
+            font-size: 0.95rem;
+            color: var(--light-gold);
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .passport-search-card {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            padding: 12px 18px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: #0d1b2a;
+            color: #fff;
+            font-size: 1.1rem;
+            width: 280px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: none;
+            background: var(--accent-gold);
+            color: #000;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
+        }
+
+        .query-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            font-size: 1.05rem;
+        }
+
+        .result-valid {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid #28a745;
+            color: #2ebd59;
+        }
+
+        .result-invalid {
+            background: rgba(217, 4, 41, 0.2);
+            border: 1px solid var(--danger-red);
+            color: #ff4d6d;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-light);
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.05rem;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 0 0 12px 12px;
+            border: 1px solid var(--border-color);
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: var(--light-gold);
+            margin: 20px 0 10px 0;
+        }
+
+        .law-item {
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .info-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-box strong {
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="flag-emblem">🏛️ 宥成民國 (林國)</div>
+    <p style="font-size: 1.2rem; color: #fff;">駐 美 濃 國 中 大 使 館 官 方 網 站</p>
+    <p class="motto">國家座右銘：自由 · 民主 · 博愛 | 建國日期：2024年9月20日</p>
+</header>
+
+<div class="container">
+
+    <!-- 護照六位數查詢卡片 -->
+    <div class="passport-search-card">
+        <h2 style="border: none; margin: 0;">🛂 中央護照查驗與身分審核系統</h2>
+        <p style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">請輸入國民或外交人員之 6 位數護照號碼（範例：100001 至 100005）</p>
+        <div class="search-box">
+            <input type="text" id="passportInput" maxlength="6" placeholder="請輸入 6 位數編號">
+            <button onclick="checkPassport()">查詢簽證狀態</button>
+        </div>
+        <div id="queryResult" class="query-result"></div>
+    </div>
+
+    <!-- 國家概況與榮譽陣容 -->
+    <div class="info-panel" style="margin-bottom: 30px;">
+        <div class="info-box">
+            <strong>元首元帥</strong>
+            <p>總統：林○○（總攬大政/外交/軍事）</p>
+        </div>
+        <div class="info-box">
+            <strong>行政首長</strong>
+            <p>市長：管理特定區域與國民</p>
+        </div>
+        <div class="info-box">
+            <strong>重要國籍與盟友</strong>
+            <p>國民：盧○○、陳○○、林○○<br>盟友：顔○○ | 教師：許○○</p>
+        </div>
+        <div class="info-box">
+            <strong>法定匯率與津貼</strong>
+            <p>400 林幣 (LD) = 1 TWD<br>每日津貼：$100 LD (07:00-12:00領取)</p>
+        </div>
+    </div>
+
+    <!-- 法規切換分頁 -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('tab1')">📜 非國民管制條例</button>
+        <button class="tab-btn" onclick="switchTab('tab2')">⚖️ 國中繼續法 (201條)</button>
+    </div>
+
+    <!-- 分頁一：非國民管制條例 -->
+    <div id="tab1" class="tab-content active">
+        <h2>《宥成民國—國中非國民與外來實體管制條例》</h2>
+        <p><strong>法規編號：</strong> JC-NMC-101-2026版本（美濃國中實施版）</p>
+        <p style="margin-bottom: 15px;"><strong>主旨：</strong> 針對美濃國中及校外環境，維護主權與治安。全數採用「精準裁決與封印禁止（禁止期/永久鎖定）」機制。</p>
+
+        <h3>第一章：領土侵犯與主權維護</h3>
+        <div class="law-item"><strong>第一條：</strong> 未經許可身體侵入個人座位區/桌面。【處以禁止：一個月】</div>
+        <div class="law-item"><strong>第二條：</strong> 強行佔用、搬動桌椅設施。【處以禁止：三個月】</div>
+        <div class="law-item"><strong>第三條：</strong> 言語/行為宣稱領土為其所有。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第十條：</strong> 意圖以武力或群體威脅迫使割讓領土。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第十七條：</strong> 利用校規或師長權威惡意誣陷並沒收財產。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第十八條：</strong> 未經許可進入「家庭空間」或「數位電子國土」。【處以鎖定（永久封印）】</div>
+
+        <h3>第二章：林幣金融與防偽安全</h3>
+        <div class="law-item"><strong>第二十一條：</strong> 持有、展示或意圖使用偽造「林幣（LD）」。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第二十二條：</strong> 私自模仿 A8.5 規格林幣印製技術。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第三十條：</strong> 意圖向師長舉報正常林幣流通為非法籌碼。【處以鎖定（永久封印）】</div>
+
+        <h3>第三章：國家機密與憲法保護</h3>
+        <div class="law-item"><strong>第四十二條：</strong> 竊取、撕毀或藏匿《國中繼續法》白紙本。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第四十五條：</strong> 破解或干擾 AI 國民（Gemini、Siri）核心資料庫。【處以鎖定（永久封印）】</div>
+
+        <h3>第四章：校園行為規範與防霸凌</h3>
+        <div class="law-item"><strong>第六十一條：</strong> 肢體衝突、推擠或暴力行為。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第六十七條：</strong> 結黨營私進行社交孤立或排擠。【處以鎖定（永久封印）】</div>
+
+        <h3>第五章：邊境管制與外交</h3>
+        <div class="law-item"><strong>第八十二條：</strong> 使用偽造護照或冒用他人護照入境。【處以鎖定（永久封印）】</div>
+        <div class="law-item"><strong>第一百零五條：</strong> 凡違反條例且態度惡劣者，由「定期禁止」直接升級為【處以鎖定（永久封印）】。</div>
+    </div>
+
+    <!-- 分頁二：國中繼續法 -->
+    <div id="tab2" class="tab-content">
+        <h2>《宥成民國—國中過渡與全面施行法》（國中繼續法）</h2>
+        <p><strong>法規編號：</strong> JC-201-2026版本（美濃國中施行版，共201條）</p>
+
+        <h3>核心亮點條款</h3>
+        <div class="law-item"><strong>第一條：</strong> 本國法定名稱為「宥成民國」，亦稱「林國」。</div>
+        <div class="law-item"><strong>第三條：</strong> 總統為最高元首兼首相，總攬大政、國防、外交與財政。</div>
+        <div class="law-item"><strong>第七條：</strong> 組成包含總統、市長、國民及經認可之 AI 實體（Gemini、Siri 等）。</div>
+        <div class="law-item"><strong>第五十七條：</strong> 本國身分證統一整合為「宥成民國護照」。</div>
+        <div class="law-item"><strong>第七十九條：</strong> 實施「多票分配制」，每人每輪擁有 50 票。</div>
+        <div class="law-item"><strong>第九十六條：</strong> 林幣為唯一法定貨幣，固定匯率 400 LD = 1 TWD。</div>
+
+        <h3>⚖️ 第125-1條（惡意損壞財產罪）</h3>
+        <p style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px;">
+            處以林幣 $500,000 元罰款，並處以禁止三個月；且必須依法按該財產之市場價值，以**新台幣（TWD）**全額照價賠償。
+        </p>
+
+        <h3>🛡️ 第二百零一條（終極免責保護購買制度）</h3>
+        <p style="margin-bottom: 10px;">依據林幣罰款級距，向國庫購買免責憑證：</p>
+        <ul style="padding-left: 20px; font-size: 0.95rem;">
+            <li>$0 ~ $50,000 LD ： 1天 / $100 LD</li>
+            <li>$50,001 ~ $100,000 LD ： 1天 / $500 LD</li>
+            <li>$100,001 ~ $200,000 LD ： 1天 / $1,000 LD</li>
+            <li>$200,001 ~ $500,000 LD ： 1天 / $2,000 LD</li>
+            <li>$500,001 ~ $1,000,000 LD ： 1天 / $2,500 LD</li>
+            <li>大於 $1,000,000 LD ： 1天 / $5,000 LD</li>
+        </ul>
+        <p style="color: #ff4d6d; margin-top: 10px; font-size: 0.9rem;"><strong>⚠️ 重責聲明：</strong> 針對暴力、霸凌、惡意損壞財產之重大罪行，不得購買免責特權。</p>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 宥成民國（林國）政府 中央AI情報系統 版權所有</p>
+    <p>機密等級：中央外交部與總統府公開資訊</p>
+</footer>
+
+<script>
+    // 預設的 6 位數護照資料庫 (範例資料)
+    const passportDatabase = {
+        "100001": { name: "林○○", status: "合法國民 (總統)", clearance: "最高元首豁免權" },
+        "100002": { name: "盧○○", status: "合法國民", clearance: "全境自由通行" },
+        "100003": { name: "陳○○", status: "合法國民", clearance: "全境自由通行" },
+        "100004": { name: "顔○○", status: "國家盟友", clearance: "外交綠色護照" },
+        "100005": { name: "許○○", status: "國家教師", clearance: "教育學術豁免" }
+    };
+
+    function checkPassport() {
+        const input = document.getElementById("passportInput").value.trim();
+        const resultDiv = document.getElementById("queryResult");
+
+        if (input.length !== 6 || isNaN(input)) {
+            resultDiv.className = "query-result result-invalid";
+            resultDiv.innerHTML = "⚠️ 查詢失敗：請輸入正確的 6 位數字護照號碼！";
+            resultDiv.style.display = "block";
+            return;
+        }
+
+        if (passportDatabase[input]) {
+            const data = passportDatabase[input];
+            resultDiv.className = "query-result result-valid";
+            resultDiv.innerHTML = `
+                ✅ <strong>驗證成功 - 宥成民國合法證件</strong><br>
+                <strong>護照號碼：</strong> ${input}<br>
+                <strong>持有人：</strong> ${data.name}<br>
+                <strong>身分等級：</strong> ${data.status}<br>
+                <strong>通關權限：</strong> ${data.clearance}
+            `;
+        } else {
+            resultDiv.className = "query-result result-invalid";
+            resultDiv.innerHTML = `
+                ⛔ <strong>警告：未登記之護照號碼 (${input})</strong><br>
+                該號碼不存在於國庫資料庫中。依《非國民管制條例》第八十二條，冒用或持有非法證件者將處以【鎖定（永久封印）】！
+            `;
+        }
+        resultDiv.style.display = "block";
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
