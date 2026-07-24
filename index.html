@@ -3,197 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宥成民國 (林國) 大使館 - 邊境與護照管理系統</title>
+    <title>宥成民國 - 統一護照驗證與管理平台</title>
     <style>
         :root {
-            --bg-color: #0d1b2a;
-            --panel-bg: rgba(27, 38, 59, 0.9);
-            --gold: #e0a96d;
-            --light-gold: #f4e8c1;
-            --text: #e0e1dd;
-            --border: #415a77;
-            --danger: #ff4d6d;
+            --gold: #d4af37;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --border: #333;
+            --text: #e0e0e0;
+            --text-muted: #a0a0a0;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body { background-color: var(--bg-color); color: var(--text); padding: 15px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
 
-        /* 頂部語言與裝置視角選擇器 */
-        .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: var(--panel-bg); padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border); }
-        select { background: #0d1b2a; color: var(--gold); border: 1px solid var(--gold); padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        .container { width: 100%; max-width: 800px; }
 
-        /* 裝置容器模擬 */
-        .main-container { max-width: 1100px; margin: 0 auto; transition: all 0.3s ease; }
-        .view-iphone { max-width: 390px; border: 12px solid #333; border-radius: 40px; padding: 15px; background: #000; }
-        .view-tablet { max-width: 768px; border: 16px solid #222; border-radius: 20px; padding: 20px; }
-        .view-fisheye { transform: scale(0.95); border-radius: 50%; overflow: hidden; border: 8px solid var(--gold); }
+        header {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 2px solid var(--gold);
+            margin-bottom: 20px;
+        }
 
-        header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid var(--gold); padding-bottom: 15px; }
-        header h1 { color: var(--gold); font-size: 1.8rem; }
+        h1 { color: var(--gold); font-size: 1.4rem; }
+        p.sub { color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; }
 
-        .card { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .card h2 { color: var(--light-gold); font-size: 1.2rem; margin-bottom: 12px; border-left: 4px solid var(--gold); padding-left: 8px; }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
 
-        /* 登入表單 */
-        .login-box { display: flex; flex-direction: column; gap: 10px; max-width: 320px; margin: 0 auto; }
-        input[type="text"], input[type="password"] { padding: 10px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 5px; text-align: center; }
-        button { background: var(--gold); color: #000; border: none; padding: 10px; font-weight: bold; border-radius: 5px; cursor: pointer; }
-        button:hover { background: var(--light-gold); }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background: #2a2a2a;
+            color: #fff;
+            font-size: 1rem;
+        }
 
-        /* 匯率表格 */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid var(--border); padding: 8px; text-align: center; font-size: 0.9rem; }
-        th { background: rgba(224, 169, 109, 0.2); color: var(--gold); }
+        button {
+            background-color: var(--gold);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
 
-        .law-list { font-size: 0.9rem; line-height: 1.6; }
-        .law-item { margin-bottom: 8px; padding-left: 10px; border-left: 2px solid var(--gold); }
+        button:hover { opacity: 0.9; }
+
+        .hidden { display: none !important; }
+
+        /* 護照實體樣式 */
+        .passport-book {
+            background: #181b20;
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .passport-header {
+            text-align: center;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .emblem { font-size: 2rem; margin-bottom: 5px; }
+
+        .page-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .page-nav button {
+            background: #2a2a2a;
+            color: var(--text);
+            font-size: 0.9rem;
+            padding: 8px;
+        }
+
+        .page-nav button.active {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .field {
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 5px;
+        }
+
+        .field-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .field-value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .card { padding: 15px; }
+        }
     </style>
-    <!-- 引入 500 個帳號資料庫 -->
-    <script src="passports.js"></script>
 </head>
 <body>
 
-<div class="top-bar">
-    <div>
-        🌐 <label for="langSelect">語言：</label>
-        <select id="langSelect" onchange="changeLanguage()">
-            <option value="zh-TW">繁體中文</option>
-            <option value="en">English</option>
-            <option value="ja">日本語</option>
-        </select>
-    </div>
-    <div>
-        📱 <label for="viewSelect">模擬裝置：</label>
-        <select id="viewSelect" onchange="changeView()">
-            <option value="desktop">普通電腦/自動適應</option>
-            <option value="iphone">iPhone / 手機模式</option>
-            <option value="tablet">平板電腦模式</option>
-            <option value="fisheye">魚眼螢幕視角</option>
-        </select>
-    </div>
-</div>
-
-<div id="mainContainer" class="main-container">
-
+<div class="container">
     <header>
-        <h1 id="txtTitle">🏛️ 宥成民國 (林國) 大使館</h1>
-        <p id="txtSub" style="font-size: 0.85rem; color: #aaa;">邊境管制區與國民數位身份登入 Portal</p>
+        <h1>🇹🇼 宥成民國統一護照驗證平台</h1>
+        <p class="sub">國家安全局 ｜ 內政部戶政司 官方內部資料庫</p>
     </header>
 
-    <!-- 500 國民登入與驗證卡片 -->
-    <div class="card">
-        <h2 id="txtLoginHead">🛂 國民身份登入與護照查驗</h2>
-        <div class="login-box">
-            <input type="text" id="passId" placeholder="6 位數護照號碼 (如 100001)" maxlength="6">
-            <input type="password" id="passCode" placeholder="護照密碼 (預設同號碼)" maxlength="6">
-            <button onclick="loginPassport()" id="btnLogin">登入個人專屬網頁</button>
+    <!-- 驗證登入區塊 -->
+    <div id="authBox" class="card">
+        <h3>🔒 護照身分驗證</h3>
+        <p class="sub" style="margin-bottom: 10px;">請輸入 6 位數護照 ID，密碼為該 ID 的第 3、4、5 位數字：</p>
+        <input type="text" id="inputId" placeholder="護照 ID (例如: 100011)">
+        <input type="text" id="inputCode" placeholder="驗證碼 (第 3、4、5 碼，例如: 001)">
+        <button onclick="login()">驗證並進入平台</button>
+    </div>
+
+    <!-- 護照調閱與查詢區塊 -->
+    <div id="dashBox" class="card hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3>📇 國民護照動態調閱</h3>
+            <button onclick="logout()" style="width: auto; padding: 6px 15px; background: #c62828; color: #fff;">登出</button>
         </div>
-        <p id="loginError" style="color: var(--danger); text-align: center; margin-top: 8px; display: none; font-size: 0.85rem;"></p>
-    </div>
 
-    <!-- 邊境與護照專屬法規 -->
-    <div class="card">
-        <h2 id="txtLawHead">📜 邊境與護照特種管制法規</h2>
-        <div class="law-list">
-            <div class="law-item"><strong>第五十七條：</strong> 本國身分證統一整合為「宥成民國護照」，實體與數位具同等效力。</div>
-            <div class="law-item"><strong>第五十八條：</strong> 凡欲進入本國領土者，不分親疏皆須出示核發之有效 6 位數護照。</div>
-            <div class="law-item"><strong>第八十一條：</strong> 未持有效護照意圖闖入邊境管制區者，處以【禁止：一個月】。</div>
-            <div class="law-item"><strong>第八十二條：</strong> 使用偽造護照或冒用他人帳號密碼入境者，直接處以【鎖定（永久封印）】。</div>
+        <input type="text" id="searchId" placeholder="輸入要調閱的護照 ID (100001 ~ 100100)">
+        <button onclick="searchPassport()">調閱該本護照</button>
+
+        <!-- 護照展示容器 -->
+        <div id="passportDisplay" class="passport-book hidden">
+            <div class="passport-header">
+                <div class="emblem">🇹🇼</div>
+                <div style="color: var(--gold); font-weight: bold; letter-spacing: 2px;">宥成民國 PASSPORT</div>
+            </div>
+
+            <div class="page-nav">
+                <button id="btnP1" class="active" onclick="switchPage(1)">第一頁：國民基本資料</button>
+                <button id="btnP2" onclick="switchPage(2)">第二頁：紀錄與授權特權</button>
+            </div>
+
+            <!-- Page 1 -->
+            <div id="page1">
+                <div class="field"><div class="field-label">國民姓名</div><div class="field-value" id="vName">-</div></div>
+                <div class="field"><div class="field-label">性別</div><div class="field-value" id="vGender">-</div></div>
+                <div class="field"><div class="field-label">出生日期</div><div class="field-value" id="vBirth">-</div></div>
+                <div class="field"><div class="field-label">國家標準身分證字號</div><div class="field-value" id="vNationalId">-</div></div>
+                <div class="field"><div class="field-label">簽發時間</div><div class="field-value" id="vIssue">-</div></div>
+                <div class="field"><div class="field-label">有效時間</div><div class="field-value" id="vExpiry">-</div></div>
+            </div>
+
+            <!-- Page 2 -->
+            <div id="page2" class="hidden">
+                <div class="field"><div class="field-label">黑紀錄標記</div><div class="field-value" id="vBlack">-</div></div>
+                <div class="field"><div class="field-label">批准特權證</div><div class="field-value" id="vPrivilege">-</div></div>
+                <div class="field"><div class="field-label">出入境與旅行紀錄</div><div class="field-value" id="vTravel">-</div></div>
+            </div>
         </div>
     </div>
 
-    <!-- 官方匯率表 -->
-    <div class="card">
-        <h2 id="txtRateHead">🪙 官方特種貨幣匯率表 (LD / TWD)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>貨幣名稱</th>
-                    <th>代號</th>
-                    <th>法定固定匯率</th>
-                    <th>備註說明</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>林幣 (國家版)</td>
-                    <td>LD</td>
-                    <td>400 LD = 1 TWD</td>
-                    <td>境內法定結算貨幣</td>
-                </tr>
-                <tr>
-                    <td>林幣 (國際版)</td>
-                    <td>iLD</td>
-                    <td>1 iLD = 1 TWD (四捨五入)</td>
-                    <td>外匯兌換與國營商店補助</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- 法規備忘 -->
+    <div class="card" style="font-size: 0.85rem; color: var(--text-muted);">
+        <h4 style="color: var(--gold); margin-bottom: 5px;">📜 法規依據</h4>
+        <p>依據《國中繼續法》第 12 條與《非國民管制條例》第 21 條，護照資料不得隨意偽造或竄改，違者將註銷護照通行權。</p>
     </div>
-
 </div>
 
 <script>
-    // 多國語言字典
-    const i18n = {
-        'zh-TW': {
-            title: "🏛️ 宥成民國 (林國) 大使館", sub: "邊境管制區與國民數位身份登入 Portal",
-            loginHead: "🛂 國民身份登入與護照查驗", btnLogin: "登入個人專屬網頁",
-            lawHead: "📜 邊境與護照特種管制法規", rateHead: "🪙 官方特種貨幣匯率表 (LD / TWD)"
-        },
-        'en': {
-            title: "🏛️ Republic of Youcheng Embassy", sub: "Border Control & Citizen Digital Identity Portal",
-            loginHead: "🛂 Passport Login & Verification", btnLogin: "Access Personal Portal",
-            lawHead: "📜 Border & Passport Control Regulations", rateHead: "🪙 Official Exchange Rates"
-        },
-        'ja': {
-            title: "🏛️ 宥成民國 大使館", sub: "出入境管理＆デジタル出入国管理ポータル",
-            loginHead: "🛂 パスポートログイン・本人確認", btnLogin: "専用ページへログイン",
-            lawHead: "📜 出入国・パスポート特別管理法", rateHead: "🪙 公式為替レート表"
-        }
+    // 100 個完整的帳號資料庫 (100001 ~ 100100)
+    const passportDatabase = {
+        "100001": { id: "100001", name: "國民_001號", gender: "男 (M)", birth: "2011-01-01", nationalId: "L10000199", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100002": { id: "100002", name: "盧○○", gender: "男 (M)", birth: "2011-02-02", nationalId: "L10000299", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "一級國民通行證", travel: "美濃國中區自由通行" },
+        "100003": { id: "100003", name: "陳○○", gender: "男 (M)", birth: "2011-03-03", nationalId: "L10000399", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "一級國民通行證", travel: "美濃國中區自由通行" },
+        "100004": { id: "100004", name: "國民_004號", gender: "女 (F)", birth: "2011-04-04", nationalId: "L10000499", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100005": { id: "100005", name: "國民_005號", gender: "男 (M)", birth: "2011-05-05", nationalId: "L10000599", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100006": { id: "100006", name: "國民_006號", gender: "女 (F)", birth: "2011-06-06", nationalId: "L10000699", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100007": { id: "100007", name: "國民_007號", gender: "男 (M)", birth: "2011-07-07", nationalId: "L10000799", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100008": { id: "100008", name: "國民_008號", gender: "女 (F)", birth: "2011-08-08", nationalId: "L10000899", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100009": { id: "100009", name: "國民_009號", gender: "男 (M)", birth: "2011-09-09", nationalId: "L10000999", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100010": { id: "100010", name: "國民_010號", gender: "女 (F)", birth: "2011-10-10", nationalId: "L10001099", issue: "2024-09-20", expiry: "2034-09-20", black: "無不良紀錄", privilege: "標準國民通行證", travel: "無紀錄" },
+        "100011": { id: "100011", name: "林宥成 (元首)", gender: "男 (M)", birth: "2011-01-11", nationalId: "L10001199", issue: "2024-09-20", expiry: "2034-09-20", black: "絕對無紀錄 (S級豁免)", privilege: "第201條免責特權 / 國家元帥通行證", travel: "全境無限制通行" },
     };
 
-    function changeLanguage() {
-        const lang = document.getElementById('langSelect').value;
-        const dict = i18n[lang];
-        document.getElementById('txtTitle').innerText = dict.title;
-        document.getElementById('txtSub').innerText = dict.sub;
-        document.getElementById('txtLoginHead').innerText = dict.loginHead;
-        document.getElementById('btnLogin').innerText = dict.btnLogin;
-        document.getElementById('txtLawHead').innerText = dict.lawHead;
-        document.getElementById('txtRateHead').innerText = dict.rateHead;
+    // 自動把 100012 ~ 100100 的帳號全數建立，不用手動寫
+    for (let i = 12; i <= 100; i++) {
+        let pad = String(i).padStart(3, '0');
+        let key = `100${pad}`;
+        passportDatabase[key] = {
+            id: key,
+            name: `國民_${pad}號`,
+            gender: (i % 2 === 0) ? "女 (F)" : "男 (M)",
+            birth: `2011-${String((i % 12) + 1).padStart(2, '0')}-15`,
+            nationalId: `L100${pad}99`,
+            issue: "2024-09-20",
+            expiry: "2034-09-20",
+            black: "無不良紀錄 (CLEAN)",
+            privilege: "標準國民通行證",
+            travel: "2024-09-20 進入美濃國中特區"
+        };
     }
 
-    function changeView() {
-        const view = document.getElementById('viewSelect').value;
-        const container = document.getElementById('mainContainer');
-        container.className = 'main-container';
-        if (view !== 'desktop') {
-            container.classList.add('view-' + view);
+    function login() {
+        const id = document.getElementById("inputId").value.trim();
+        const code = document.getElementById("inputCode").value.trim();
+
+        if (!passportDatabase[id]) {
+            alert("查無此護照 ID！");
+            return;
         }
-    }
 
-    function loginPassport() {
-        const id = document.getElementById('passId').value.trim();
-        const code = document.getElementById('passCode').value.trim();
-        const err = document.getElementById('loginError');
-
-        if (window.passportDB && window.passportDB[id]) {
-            const user = window.passportDB[id];
-            if (user.password === code) {
-                // 驗證成功，帶入護照資料跳轉至國民個人頁面
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                window.location.href = 'citizen.html?id=' + id;
-            } else {
-                err.innerText = "❌ 密碼錯誤！(預設密碼與帳號相同)";
-                err.style.display = "block";
-            }
+        // 驗證碼檢查：第 3, 4, 5 位數字
+        const correctCode = id.substring(2, 5);
+        if (code === correctCode) {
+            document.getElementById("authBox").classList.add("hidden");
+            document.getElementById("dashBox").classList.remove("hidden");
+            document.getElementById("searchId").value = id;
+            searchPassport();
         } else {
-            err.innerText = "⚠️ 找不到此護照號碼！請確認是否為 100001~100500";
-            err.style.display = "block";
+            alert(`驗證失敗！護照 ID ${id} 的驗證碼為第 3,4,5 碼，應為 [ ${correctCode} ]`);
         }
+    }
+
+    function searchPassport() {
+        const targetId = document.getElementById("searchId").value.trim();
+        const display = document.getElementById("passportDisplay");
+
+        if (!passportDatabase[targetId]) {
+            alert("查無此護照檔案！");
+            display.classList.add("hidden");
+            return;
+        }
+
+        const data = passportDatabase[targetId];
+        document.getElementById("vName").innerText = data.name;
+        document.getElementById("vGender").innerText = data.gender;
+        document.getElementById("vBirth").innerText = data.birth;
+        document.getElementById("vNationalId").innerText = data.nationalId;
+        document.getElementById("vIssue").innerText = data.issue;
+        document.getElementById("vExpiry").innerText = data.expiry;
+        document.getElementById("vBlack").innerText = data.black;
+        document.getElementById("vPrivilege").innerText = data.privilege;
+        document.getElementById("vTravel").innerText = data.travel;
+
+        display.classList.remove("hidden");
+        switchPage(1);
+    }
+
+    function switchPage(page) {
+        if (page === 1) {
+            document.getElementById("page1").classList.remove("hidden");
+            document.getElementById("page2").classList.add("hidden");
+            document.getElementById("btnP1").classList.add("active");
+            document.getElementById("btnP2").classList.remove("active");
+        } else {
+            document.getElementById("page1").classList.add("hidden");
+            document.getElementById("page2").classList.remove("hidden");
+            document.getElementById("btnP1").classList.remove("active");
+            document.getElementById("btnP2").classList.add("active");
+        }
+    }
+
+    function logout() {
+        document.getElementById("dashBox").classList.add("hidden");
+        document.getElementById("authBox").classList.remove("hidden");
+        document.getElementById("inputId").value = "";
+        document.getElementById("inputCode").value = "";
     }
 </script>
+
 </body>
 </html>
