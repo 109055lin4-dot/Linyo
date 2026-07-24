@@ -8,7 +8,7 @@ for (let i = 1; i <= 500; i++) {
     // 前幾號預設帶入國家核心成員，其餘全數為空白可註冊帳號
     if (id === "100011") {
         window.passportDB[id] = {
-            id: id, password: mnpp3886lin, owner: "林宥成 (總統)",
+            id: id, password: 109055, owner: "林宥成 (總統)",
             level: "最高元首 / 國家元帥", clearance: "S級 全境無限制通行與最高修改權",
             themeColor: "#e0a96d", customBio: "宥成民國最高元首專屬頁面。"
         };
